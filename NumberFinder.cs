@@ -8,6 +8,9 @@ namespace PadawansTask6
     {
         public static int? NextBiggerThan(int number)
         {
+
+            if(number < 0)
+                throw new ArgumentException("Value Of Number Cannot Be Less Zero.");
             List<int> allDigits = new List<int>();
             string strNumber = number.ToString();
 
@@ -18,29 +21,62 @@ namespace PadawansTask6
             }
 
             int? tempIndex = null;
+            int indexA = 0;
+            int indexB = 0;
 
-
+            //from end to start
             for (int i = allDigits.Count - 1; i >= 0; i--)
             {
-                if (tempIndex != null)
-                    break;
-                for (int j = i-1; j >=0; j--)
+                for (int j = i - 1; j >= 0; j--)
                 {
                     if (allDigits[i] > allDigits[j])
                     {
-                        int tempDigit = allDigits[i];
-                        allDigits[i] = allDigits[j];
-                        allDigits[j] = tempDigit;
-                        tempIndex = j;
-                        break;
+                        if (tempIndex < j || tempIndex == null)
+                        {
+                            tempIndex = j;
+                            indexA = i;
+                            indexB = j;
+                            break;
+                        }
+                       
                     }
 
                 }
             }
 
+            // from start to end
+            //for (int i = 0; i < allDigits.Count; i++)
+            //{
+            //    //if (tempIndex != null)
+            //    //    break;
+            //    for (int j = i - 1; j >= 0; j--)
+            //    {
+            //        if (allDigits[i] > allDigits[j])
+            //        {
+            //            if (tempIndex <= j || tempIndex == null)
+            //            {
+            //                tempIndex = j;
+            //                indexA = i;
+            //                indexB = j;
+            //                break;
+            //            }
+            //        }
+
+            //    }
+            //}
+
+
+
+
             //No changes => no largest integer
             if (tempIndex == null)
                 return null;
+            else
+            {
+                int tempDigit = allDigits[indexA];
+                allDigits[indexA] = allDigits[indexB];
+                allDigits[indexB] = tempDigit;
+            }
 
 
             //sort digits after changed digit by ascending
